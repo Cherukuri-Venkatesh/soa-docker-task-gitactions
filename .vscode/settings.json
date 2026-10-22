@@ -1,0 +1,7 @@
+{
+  "files.readonlyFromPermissions": false,
+  "files.readonlyInclude": {},
+  "files.readonlyExclude": {
+    "**/*": true
+  }
+}

@@ -1,0 +1,44 @@
+services:
+  postgresdb:
+    image: postgres:16-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: PublicLibraryCard_2400032597
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - springboot-postgres-net
+
+  backend:
+    platform: linux/amd64
+    image: venkateshcherukuri1/docker-backend-2400032597:latest
+    container_name: docker-springboot
+    ports:
+      - "2025:2000"
+    depends_on:
+      - postgresdb
+    restart: on-failure
+    networks:
+      - springboot-postgres-net
+
+  frontend:
+    platform: linux/amd64
+    image: venkateshcherukuri1/docker-frontend-2400032597:latest
+    container_name: docker-react
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: on-failure
+    networks:
+      - springboot-postgres-net
+
+volumes:
+  postgres_data:
+
+networks:
+  springboot-postgres-net:
